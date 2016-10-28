@@ -19,6 +19,7 @@ parameters:
             tab_width: ~
             ignore_patterns:
               - vendor
+              - tests
             sniffs: []
             triggered_by: [php]
         phpunit: ~

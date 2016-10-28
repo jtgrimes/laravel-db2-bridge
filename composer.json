@@ -1,7 +1,7 @@
 {
-  "name": "jtgrimes/eloquent-db2-bridge",
+  "name": "jtgrimes/laravel-db2-bridge",
   "type": "library",
-  "description": "Brings Eloquent models to db2",
+  "description": "Brings Laravel's database tools and Eloquent models to db2",
   "keywords": [
     "laravel",
     "eloquent",
@@ -18,7 +18,7 @@
     }
   ],
   "autoload": {
-    "psr-4": { "JTGrimes\\EloquentDB2\\" : "src/" }
+    "psr-4": { "JTGrimes\\LaravelDB2\\" : "src/" }
   },
   "require": {
     "php": ">= 5.6",
@@ -27,6 +27,7 @@
   "require-dev": {
     "phpunit/phpunit": "~5.6",
     "phpro/grumphp": "^0.9.6",
-    "squizlabs/php_codesniffer": "^2.7"
+    "squizlabs/php_codesniffer": "^2.7",
+    "mockery/mockery": "^0.9.5"
   }
 }
