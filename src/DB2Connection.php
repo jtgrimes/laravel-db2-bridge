@@ -1,7 +1,6 @@
 <?php namespace JTGrimes\LaravelDB2;
 
 use Illuminate\Database\Connection;
-use Illuminate\Database\Query\Processors\Processor;
 
 class DB2Connection extends Connection
 {
@@ -10,7 +9,7 @@ class DB2Connection extends Connection
     public function __construct($database, $username, $password, $options = [])
     {
         $this->setQueryGrammar(new DB2Grammar);
-        $this->setPostProcessor(new Processor);
+        $this->setPostProcessor(new DB2Processor);
         $this->connection = $this->db2connect($database, $username, $password, $options);
     }
 
@@ -91,7 +90,8 @@ class DB2Connection extends Connection
      */
     public function beginTransaction()
     {
-        db2_autocommit($this->connection, false);
+        $this->db2autocommit($this->connection, false);
+        $this->fireConnectionEvent('beganTransaction');
     }
 
     /**
@@ -101,9 +101,10 @@ class DB2Connection extends Connection
      */
     public function commit()
     {
-        db2_commit($this->connection);
+        $this->db2commit($this->connection);
         // and turn autocommit back on...
-        db2_autocommit($this->connection, true);
+        $this->db2autocommit($this->connection, true);
+        $this->fireConnectionEvent('committed');
     }
 
     /**
@@ -113,7 +114,8 @@ class DB2Connection extends Connection
      */
     public function rollBack()
     {
-        db2_rollback($this->connection);
+        $this->db2rollback($this->connection);
+        $this->fireConnectionEvent('rollingBack');
     }
 
     /**
@@ -135,6 +137,11 @@ class DB2Connection extends Connection
     public function query()
     {
         return new DB2QueryBuilder($this, $this->getQueryGrammar(), $this->getPostProcessor());
+    }
+
+    public function lastInsertID()
+    {
+        return db2_last_insert_id($this->connection);
     }
 
     protected function db2connect($databse, $username, $password, $options = [])
@@ -181,5 +188,15 @@ class DB2Connection extends Connection
             return db2_autocommit($connection);
         }
         return db2_autocommit($connection, $value);
+    }
+
+    protected function db2commit($connection)
+    {
+        return db2_commit($connection);
+    }
+
+    protected function db2rollback($connection)
+    {
+        return db2_rollback($connection);
     }
 }

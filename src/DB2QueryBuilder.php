@@ -14,7 +14,7 @@ class DB2QueryBuilder extends Builder
     {
         $sql = $this->grammar->compileSelect($this);
 
-        $results = $this->connection->select($sql, $this->getBindings(), ! $this->useWritePdo);
+        $results = $this->connection->select($sql, $this->getBindings());
 
         return isset($results[0]);
     }
