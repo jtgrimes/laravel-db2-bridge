@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ruleset name="IYS">
+ <description>A customized PSR-2 coding standard.</description>
+
+
+ <rule ref="PSR2">
+  <!-- these are the burdens of developing on Windows -->
+  <exclude name="Generic.Files.LineEndings"/>
+ </rule>
+
+</ruleset>
