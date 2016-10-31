@@ -15,4 +15,9 @@ class DB2ServiceProvider extends ServiceProvider
             );
         });
     }
+
+    public function register()
+    {
+        // nothing to see here.
+    }
 }
