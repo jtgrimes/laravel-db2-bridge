@@ -150,6 +150,7 @@ class DB2Connection extends Connection
         if (!$result) {
             throw new DB2Exception(db2_conn_errormsg());
         }
+        return $result;
     }
 
     protected function db2prepare($connection, $query)
@@ -171,8 +172,11 @@ class DB2Connection extends Connection
         return $result;
     }
 
-    protected function db2fetchassoc($statement, $row_number = -1)
+    protected function db2fetchassoc($statement, $row_number = null)
     {
+        if (is_null($row_number)) {
+            return db2_fetch_assoc($statement);
+        }
         return db2_fetch_assoc($statement, $row_number);
     }
 
