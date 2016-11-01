@@ -7,12 +7,14 @@ class DB2ServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app['db']->extend('db2', function ($config) {
-            return new DB2Connection(
+            $connection = new DB2Connection(
                 $config['dbname'],
                 $config['username'],
                 $config['password'],
                 $config['db2_options']
             );
+            $connection->setQueryBuilder(new DB2QueryBuilder($connection));
+            return $connection;
         });
     }
 
