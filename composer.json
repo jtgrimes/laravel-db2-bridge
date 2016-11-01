@@ -1,0 +1,34 @@
+{
+  "name": "jtgrimes/laravel-db2-bridge",
+  "type": "library",
+  "description": "Brings Laravel's database tools and Eloquent models to db2",
+  "keywords": [
+    "laravel",
+    "eloquent",
+    "db2",
+    "IBM",
+    "iSeries"
+  ],
+  "homepage": "https://github.com/jtgrimes/eloquent-db2-bridge",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "J.T. Grimes",
+      "email": "jtgrimes@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": { "JTGrimes\\LaravelDB2\\" : "src/" }
+  },
+  "require": {
+    "php": ">= 5.6",
+    "illuminate/database": "^5.2 || ^5.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~5.6",
+    "phpro/grumphp": "^0.9.6",
+    "squizlabs/php_codesniffer": "^2.7",
+    "mockery/mockery": "^0.9.5",
+    "illuminate/pagination": "^5.2 || ^5.3"
+  }
+}
