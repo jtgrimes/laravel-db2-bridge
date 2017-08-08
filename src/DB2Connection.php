@@ -148,9 +148,7 @@ class DB2Connection extends Connection
 
     public function query()
     {
-        if (!$this->queryBuilder) {
-            $this->queryBuilder = new DB2QueryBuilder($this);
-        }
+        $this->queryBuilder = new DB2QueryBuilder($this);
         return $this->queryBuilder;
     }
 
