@@ -121,13 +121,22 @@ class DatabaseConnectionTest extends PHPUnit_Framework_TestCase
         $connection->rollBack();
     }
 
-    public function testFromCreatesNewQueryBuilder()
+//    public function testFromCreatesNewQueryBuilder()
+//    {
+//        $conn = new DB2Connection('', '', '');
+//        $builder = $conn->table('users');
+//        $this->assertInstanceOf('Illuminate\Database\Query\Builder', $builder);
+//        $this->assertEquals('users', $builder->from);
+//    }
+
+    public function testCanUseCustomQueryBuilder()
     {
         $conn = $this->getMockConnection();
+        $conn->setQueryBuilderClass(FakeQueryBuilder::class);
         $conn->setQueryGrammar(m::mock('Illuminate\Database\Query\Grammars\Grammar'));
         $conn->setPostProcessor(m::mock('Illuminate\Database\Query\Processors\Processor'));
         $builder = $conn->table('users');
-        $this->assertInstanceOf('Illuminate\Database\Query\Builder', $builder);
+        $this->assertInstanceOf(FakeQueryBuilder::class, $builder);
         $this->assertEquals('users', $builder->from);
     }
 
@@ -197,9 +206,12 @@ class DatabaseConnectionTest extends PHPUnit_Framework_TestCase
             ->setMethods(array_merge($defaults, $methods))
             ->disableOriginalConstructor()
             ->getMock();
+        $connection->queryBuilderClass = \JTGrimes\LaravelDB2\DB2QueryBuilder::class;
         $connection->connection = Mockery::mock('strClass');
         $connection->enableQueryLog();
 
         return $connection;
     }
 }
+
+class FakeQueryBuilder extends \JTGrimes\LaravelDB2\DB2QueryBuilder {}

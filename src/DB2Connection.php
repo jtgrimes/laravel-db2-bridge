@@ -6,23 +6,19 @@ class DB2Connection extends Connection
 {
     private $connection;
 
-    private $queryBuilder;
+    private $queryBuilderClass;
 
     public function __construct($database, $username, $password, $options = [])
     {
         $this->setQueryGrammar(new DB2Grammar);
         $this->setPostProcessor(new DB2Processor);
+        $this->queryBuilderClass = DB2QueryBuilder::class;
         $this->connection = $this->db2connect($database, $username, $password, $options);
     }
 
-    public function getQueryBuilder()
+    public function setQueryBuilderClass($queryBuilderClassName)
     {
-        return $this->queryBuilder;
-    }
-
-    public function setQueryBuilder($queryBuilder)
-    {
-        $this->queryBuilder = $queryBuilder;
+        $this->queryBuilderClass = $queryBuilderClassName;
     }
 
     public function select($query, $bindings = [])
@@ -124,7 +120,7 @@ class DB2Connection extends Connection
      *
      * @return void
      */
-    public function rollBack()
+    public function rollBack($toLevel = null)
     {
         $this->db2rollback($this->connection);
         $this->fireConnectionEvent('rollingBack');
@@ -148,8 +144,7 @@ class DB2Connection extends Connection
 
     public function query()
     {
-        $this->queryBuilder = new DB2QueryBuilder($this);
-        return $this->queryBuilder;
+        return new $this->queryBuilderClass($this);
     }
 
     public function lastInsertID()
